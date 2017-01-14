@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="custom_rules" default="-pre-build">
+    <property file="local.properties" />
+
+    <property environment="env"/>
+    <property name="ndk.dir" value="${env.ANDROID_NDK}"/>
+    <property name="ndk.cmd" value="ndk-build"/>
+
+    <target name="-pre-build">
+        <exec executable="${ndk.dir}/${ndk.cmd}" failonerror="true">
+            <arg line=""/>
+        </exec>
+        <ant antfile = "build_copy_exe.xml" target = "copy_stockfish"/> 
+    </target>
+
+    <target name="-pre-clean">
+        <exec executable="${ndk.dir}/${ndk.cmd}" failonerror="false">
+            <arg line="clean"/>
+        </exec>
+        <delete>
+            <fileset dir="assets" includes="stockfish-*"/>
+            <fileset dir="libs" includes="**/stockfish"/>
+            <fileset dir="libs" includes="**/.so"/>
+        </delete>
+    </target>
+
+</project>
+
